@@ -1,5 +1,4 @@
 {
-  pool,
   fetchFromGitHub,
   opencl-headers,
   cmake,
@@ -11,10 +10,12 @@
   opencl-info,
   rocm-opencl-icd,
   rocm-opencl-runtime,
+  rocm-smi,
   openssl,
   pkg-config,
   cli11,
-  stdenv
+  stdenv,
+  xdg_utils
 }:
   
 stdenv.mkDerivation rec {
@@ -54,8 +55,10 @@ stdenv.mkDerivation rec {
     opencl-info
     rocm-opencl-icd
     rocm-opencl-runtime
+    rocm-smi
     openssl
     jsoncpp
+    xdg_utils
   ];
 
   preConfigure = ''
@@ -64,17 +67,16 @@ stdenv.mkDerivation rec {
 
   postInstall = ''
     wrapProgram $out/bin/ethminer \
-       --prefix LD_LIBRARY_PATH : /run/opengl-driver/lib \
-       --add-flags "-P ${pool}"
+       --prefix LD_LIBRARY_PATH : /run/opengl-driver/lib
   '';
 
   meta = with stdenv.lib; {
-    description = "Ethereum miner with OpenCL, CUDA and stratum support";
+    description = "Ethereum miner with OpenCL and stratum support";
     homepage = "https://github.com/ethereum-mining/ethminer";
     platforms = [ "x86_64-linux" ];
     maintainers = with maintainers; [ nand0p ];
     license = licenses.gpl2;
     # Doesn't build with gcc9, and if overlayed to use gcc8 stdenv fails on CUDA issues.
-    broken = true;
+    broken = false;
   };
 }

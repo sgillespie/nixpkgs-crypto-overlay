@@ -4,7 +4,7 @@
 }:
 
 let
-  overlay = import ./default.nix;
+  overlay = import ./overlay.nix;
   pkgs = import pkgPath { overlays = [overlay] ++ overlays; };
   inherit (pkgs) mkShell;
 in
