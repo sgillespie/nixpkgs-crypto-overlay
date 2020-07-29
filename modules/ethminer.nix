@@ -62,7 +62,7 @@ in
 
       rig = mkOption {
         type = types.str;
-        default = "mining-rig-name";
+        example = "mining-rig-name";
         description = ''
           Mining rig name.
         '';
