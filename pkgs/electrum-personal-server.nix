@@ -31,7 +31,7 @@ in
       setuptools
     ];
 
-    meta = with stdenv.lib; {
+    meta = with lib; {
       description = "";
       longDescription = ''
       '';
